@@ -6,10 +6,17 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { SPokemon } from '@/interfaces';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import { NextRouter, useRouter } from 'next/router';
 
 
 export default function Home({ pokemon: data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const pokemon: SPokemon = data as SPokemon;
+  const router: NextRouter = useRouter();
+
+  const refreshData = () => {
+    router.replace(router.asPath);
+  }
+
   return (
     <>
       <Head>
@@ -30,18 +37,18 @@ export default function Home({ pokemon: data }: InferGetServerSidePropsType<type
           <h1 className="text-2xl capitalize">
           {pokemon.name}
           </h1>
-          <div className="grid grid-cols-8">
+          <div className="grid grid-cols-4">
             <Image 
               className="float-left col-span-1" 
               src={pokemon.sprites.front_default ?? ""} 
               alt={pokemon.name} 
-              width={200} 
-              height={200}
+              width={256} 
+              height={256}
               priority={true}
               placeholder="blur"
-              blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(200, 200))}`}
+              blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(256, 256))}`}
             />
-            <Tabs className="col-span-7">
+            <Tabs className="col-span-3">
               <TabList>
                 <Tab>
                   <h2 className="text-xl slate">
@@ -120,6 +127,11 @@ export default function Home({ pokemon: data }: InferGetServerSidePropsType<type
               </TabPanel>
             </Tabs>
           </div>
+          <div className="my-5 grid place-items-center">
+              <button className="rounded-full bg-slate-500 py-2 px-5 text-xl transition-all" onClick={refreshData}>
+                <h3>New Pokémon</h3>
+              </button>
+            </div>
         </div>
       </main>
     </>

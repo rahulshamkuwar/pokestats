@@ -16,104 +16,112 @@ export default function Home({ pokemon: data }: InferGetServerSidePropsType<type
         <title>PokéStats</title>
         <meta name="description" content="Website that displays Pokémen stats using PokéAPI." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta name="theme-color" content="#ffffff" />
       </Head>
       <Navbar></Navbar>
-      <div className="container mx-auto">
-        <h1 className="text-2xl capitalize">
-        {pokemon.name}
-        </h1>
-        <div className="grid grid-cols-8">
-          <Image 
-            className="float-left col-span-1" 
-            src={pokemon.sprites.front_default ?? ""} 
-            alt={pokemon.name} 
-            width={200} 
-            height={200}
-            priority={true}
-            placeholder="blur"
-            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(200, 200))}`}
-          />
-          <Tabs className="col-span-7">
-            <TabList>
-              <Tab>
-                <h2 className="text-xl slate">
-                  About
-                </h2>
-              </Tab>
-              <Tab>
-                <h2 className="text-xl">
-                  Abilities
-                </h2>
-              </Tab>
-              <Tab>
-                <h2 className="text-xl">
-                  Stats
-                </h2>
-              </Tab>
-              <Tab>
-                <h2 className="text-xl">
-                  Types
-                </h2>
-              </Tab>
-            </TabList>
-            <TabPanel>
-              <div className="text-lg capitalize">
-                <p>Height: {pokemon.height}</p>
-                <p>Weight: {pokemon.weight}</p>
-                <p>Species: {pokemon.species.name}</p>
-                <p>Base Experience: {pokemon.base_experience}</p>
-                {pokemon.forms.map((form, i) => (
-                  <p key={i}>
-                    Forms: {form.name}{i > 1 ? ", " : ""}
+      <main>
+        <div className="container mx-auto">
+          <h1 className="text-2xl capitalize">
+          {pokemon.name}
+          </h1>
+          <div className="grid grid-cols-8">
+            <Image 
+              className="float-left col-span-1" 
+              src={pokemon.sprites.front_default ?? ""} 
+              alt={pokemon.name} 
+              width={200} 
+              height={200}
+              priority={true}
+              placeholder="blur"
+              blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(200, 200))}`}
+            />
+            <Tabs className="col-span-7">
+              <TabList>
+                <Tab>
+                  <h2 className="text-xl slate">
+                    About
+                  </h2>
+                </Tab>
+                <Tab>
+                  <h2 className="text-xl">
+                    Abilities
+                  </h2>
+                </Tab>
+                <Tab>
+                  <h2 className="text-xl">
+                    Stats
+                  </h2>
+                </Tab>
+                <Tab>
+                  <h2 className="text-xl">
+                    Types
+                  </h2>
+                </Tab>
+              </TabList>
+              <TabPanel>
+                <div className="text-lg capitalize">
+                  <p>Height: {pokemon.height}</p>
+                  <p>Weight: {pokemon.weight}</p>
+                  <p>Species: {pokemon.species.name}</p>
+                  <p>Base Experience: {pokemon.base_experience}</p>
+                  {pokemon.forms.map((form, i) => (
+                    <p key={i}>
+                      Forms: {form.name}{i > 1 ? ", " : ""}
+                    </p>
+                  ))}
+                </div>
+              </TabPanel>
+              <TabPanel>
+                {pokemon.abilities.map((ability, i) => (
+                  <p key={i} className="capitalize text-lg">
+                    {ability.ability.name}
                   </p>
                 ))}
-              </div>
-            </TabPanel>
-            <TabPanel>
-              {pokemon.abilities.map((ability, i) => (
-                <p key={i} className="capitalize text-lg">
-                  {ability.ability.name}
-                </p>
-              ))}
-            </TabPanel>
-            <TabPanel>
-              <div className="text-lg capitalize text-left">
-              <table className="table-auto border-collapse border border-slate-500 w-1/2">
-                <thead>
-                  <tr>
-                    <th className="px-5 border border-slate-600 border-">Stat</th>
-                    <th className="px-5 border border-slate-600 border-">Base Stat</th>
-                    <th className="px-5 border border-slate-600 border-">Effort</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pokemon.stats.map((stat, i) => (
-                    <tr key={i}>
-                      <td className="px-5 border border-slate-700">{stat.stat.name}</td>
-                      <td className="px-5 border border-slate-700">{stat.base_stat}</td>
-                      <td className="px-5 border border-slate-700">{stat.effort}</td>
+              </TabPanel>
+              <TabPanel>
+                <div className="text-lg capitalize text-left">
+                <table className="table-auto border-collapse border border-slate-500 w-1/2">
+                  <thead>
+                    <tr>
+                      <th className="px-5 border border-slate-600 border-">Stat</th>
+                      <th className="px-5 border border-slate-600 border-">Base Stat</th>
+                      <th className="px-5 border border-slate-600 border-">Effort</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              {pokemon.types.map((type, i) => (
-                <div key={i} className="text-lg capitalize">
-                  <p>
-                    {type.type.name}
-                  </p>
-                  <p>
-                    {type.slot}
-                  </p>
+                  </thead>
+                  <tbody>
+                    {pokemon.stats.map((stat, i) => (
+                      <tr key={i}>
+                        <td className="px-5 border border-slate-700">{stat.stat.name}</td>
+                        <td className="px-5 border border-slate-700">{stat.base_stat}</td>
+                        <td className="px-5 border border-slate-700">{stat.effort}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
                 </div>
-              ))}
-            </TabPanel>
-          </Tabs>
+              </TabPanel>
+              <TabPanel>
+                {pokemon.types.map((type, i) => (
+                  <div key={i} className="text-lg capitalize">
+                    <p>
+                      {type.type.name}
+                    </p>
+                    <p>
+                      {type.slot}
+                    </p>
+                  </div>
+                ))}
+              </TabPanel>
+            </Tabs>
+          </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }

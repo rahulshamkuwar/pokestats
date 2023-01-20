@@ -1,31 +1,50 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import Navbar from '@/components/Navbar';
-import { Pokemon, PokemonClient } from "pokenode-ts";
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { SPokemon } from '@/interfaces';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import { NextRouter, useRouter } from 'next/router';
+import Head from "next/head";
+import Image from "next/image";
+import Navbar from "@/components/Navbar";
+import { PokemonClient } from "pokenode-ts";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { SPokemon } from "@/interfaces";
+import "react-tabs/style/react-tabs.css";
+import { NextRouter, useRouter } from "next/router";
+import PokeTabs from "@/components/PokeTabs";
+import React from "react";
 
-
-export default function Home({ pokemon: data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Home({
+  pokemon: data,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const pokemon: SPokemon = data as SPokemon;
   const router: NextRouter = useRouter();
 
   const refreshData = () => {
     router.replace(router.asPath);
-  }
+  };
 
   return (
     <>
       <Head>
         <title>PokéStats</title>
-        <meta name="description" content="Website that displays Pokémen stats using PokéAPI." />
+        <meta
+          name="description"
+          content="Website that displays Pokémen stats using PokéAPI."
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <meta name="msapplication-TileColor" content="#da532c" />
@@ -34,104 +53,30 @@ export default function Home({ pokemon: data }: InferGetServerSidePropsType<type
       <Navbar></Navbar>
       <main>
         <div className="container mx-auto">
-          <h1 className="text-2xl capitalize">
-          {pokemon.name}
-          </h1>
+          <h1 className="text-2xl capitalize">{pokemon.name}</h1>
           <div className="grid grid-cols-4">
-            <Image 
-              className="float-left col-span-1" 
-              src={pokemon.sprites.front_default ?? ""} 
-              alt={pokemon.name} 
-              width={256} 
+            <Image
+              className="float-left col-span-1"
+              src={pokemon.sprites.front_default ?? ""}
+              alt={pokemon.name}
+              width={256}
               height={256}
               priority={true}
               placeholder="blur"
-              blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(256, 256))}`}
+              blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                shimmer(256, 256)
+              )}`}
             />
-            <Tabs className="col-span-3">
-              <TabList>
-                <Tab>
-                  <h2 className="text-xl slate">
-                    About
-                  </h2>
-                </Tab>
-                <Tab>
-                  <h2 className="text-xl">
-                    Abilities
-                  </h2>
-                </Tab>
-                <Tab>
-                  <h2 className="text-xl">
-                    Stats
-                  </h2>
-                </Tab>
-                <Tab>
-                  <h2 className="text-xl">
-                    Types
-                  </h2>
-                </Tab>
-              </TabList>
-              <TabPanel>
-                <div className="text-lg capitalize">
-                  <p>Height: {pokemon.height}</p>
-                  <p>Weight: {pokemon.weight}</p>
-                  <p>Species: {pokemon.species.name}</p>
-                  <p>Base Experience: {pokemon.base_experience}</p>
-                  {pokemon.forms.map((form, i) => (
-                    <p key={i}>
-                      Forms: {form.name}{i > 1 ? ", " : ""}
-                    </p>
-                  ))}
-                </div>
-              </TabPanel>
-              <TabPanel>
-                {pokemon.abilities.map((ability, i) => (
-                  <p key={i} className="capitalize text-lg">
-                    {ability.ability.name}
-                  </p>
-                ))}
-              </TabPanel>
-              <TabPanel>
-                <div className="text-lg capitalize text-left">
-                <table className="table-auto border-collapse border border-slate-500 w-1/2">
-                  <thead>
-                    <tr>
-                      <th className="px-5 border border-slate-600 border-">Stat</th>
-                      <th className="px-5 border border-slate-600 border-">Base Stat</th>
-                      <th className="px-5 border border-slate-600 border-">Effort</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {pokemon.stats.map((stat, i) => (
-                      <tr key={i}>
-                        <td className="px-5 border border-slate-700">{stat.stat.name}</td>
-                        <td className="px-5 border border-slate-700">{stat.base_stat}</td>
-                        <td className="px-5 border border-slate-700">{stat.effort}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                </div>
-              </TabPanel>
-              <TabPanel>
-                {pokemon.types.map((type, i) => (
-                  <div key={i} className="text-lg capitalize">
-                    <p>
-                      {type.type.name}
-                    </p>
-                    <p>
-                      {type.slot}
-                    </p>
-                  </div>
-                ))}
-              </TabPanel>
-            </Tabs>
+            <PokeTabs {...pokemon}></PokeTabs>
           </div>
           <div className="my-5 grid place-items-center">
-              <button className="rounded-full bg-slate-500 py-2 px-5 text-xl transition-all" onClick={refreshData}>
-                <h3>New Pokémon</h3>
-              </button>
-            </div>
+            <button
+              className="rounded-full bg-slate-500 py-2 px-5 text-xl transition-all"
+              onClick={refreshData}
+            >
+              <h3>New Pokémon</h3>
+            </button>
+          </div>
         </div>
       </main>
     </>
@@ -153,27 +98,29 @@ const shimmer = (w: number, h: number) => `
 </svg>`;
 
 const toBase64 = (str: string) =>
-  typeof window === 'undefined'
-    ? Buffer.from(str).toString('base64')
+  typeof window === "undefined"
+    ? Buffer.from(str).toString("base64")
     : window.btoa(str);
 
-export const getServerSideProps: GetServerSideProps<{ pokemon: SPokemon | { notFound: boolean } } > = async (context) => {
+export const getServerSideProps: GetServerSideProps<{
+  pokemon: SPokemon | { notFound: boolean };
+}> = async () => {
   const api = new PokemonClient({
     // Cache for one day
     cacheOptions: {
       maxAge: 86400000,
       readOnError: true,
-      clearOnStale: true
-    }
+      clearOnStale: true,
+    },
   });
-  const data = await api.getPokemonById(Math.floor(Math.random() * 500)).catch((err) => {
-    console.log(err);
-    return {
-      notFound: true,
-    };
-  });
-
-  // const pokemon: SPokemon = (({ id, name, base_experience, height, weight, abilities, forms, held_items, location_area_encounters, sprites, species, stats, types }) => ({ id, name, base_experience, height, weight, abilities, forms, held_items, location_area_encounters, sprites, species, stats, types }))(data as Pokemon);
+  const data = await api
+    .getPokemonById(Math.floor(Math.random() * 500))
+    .catch(err => {
+      console.log(err);
+      return {
+        notFound: true,
+      };
+    });
 
   const pokemon: SPokemon = data as SPokemon;
   delete pokemon.is_default;
@@ -185,4 +132,4 @@ export const getServerSideProps: GetServerSideProps<{ pokemon: SPokemon | { notF
   delete pokemon.order;
 
   return { props: { pokemon } };
-}
+};

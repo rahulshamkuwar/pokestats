@@ -1,4 +1,13 @@
-import { NamedAPIResource, PokemonAbility, PokemonHeldItem, PokemonMove, PokemonSprites, PokemonStat, PokemonType, VersionGameIndex } from "pokenode-ts";
+import {
+  NamedAPIResource,
+  PokemonAbility,
+  PokemonHeldItem,
+  PokemonMove,
+  PokemonSprites,
+  PokemonStat,
+  PokemonType,
+  VersionGameIndex,
+} from "pokenode-ts";
 
 /** Smaller Version of Pokemon */
 export interface SPokemon {

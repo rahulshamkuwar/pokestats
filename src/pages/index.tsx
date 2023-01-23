@@ -54,19 +54,19 @@ export default function Home({
       <main>
         <div className="container mx-auto">
           <h1 className="text-2xl capitalize">{pokemon.name}</h1>
-          <div className="grid grid-cols-4">
-            <Image
-              className="float-left col-span-1"
-              src={pokemon.sprites.front_default ?? ""}
-              alt={pokemon.name}
-              width={256}
-              height={256}
-              priority={true}
-              placeholder="blur"
-              blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                shimmer(256, 256)
-              )}`}
-            />
+          <div className="lg:grid lg:grid-cols-4">
+            <div className="md:w-64 md:h-64 w-48 h-48 relative object-contain lg:col-span-1 m-5">
+              <Image
+                src={pokemon.sprites.other?.dream_world.front_default ?? ""}
+                alt={pokemon.name}
+                fill
+                priority={true}
+                placeholder="blur"
+                blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                  placeHolder(256, 256)
+                )}`}
+              />
+            </div>
             <PokeTabs {...pokemon}></PokeTabs>
           </div>
           <div className="my-5 grid place-items-center">
@@ -83,19 +83,8 @@ export default function Home({
   );
 }
 
-const shimmer = (w: number, h: number) => `
-<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <defs>
-    <linearGradient id="g">
-      <stop stop-color="#333" offset="20%" />
-      <stop stop-color="#222" offset="50%" />
-      <stop stop-color="#333" offset="70%" />
-    </linearGradient>
-  </defs>
-  <rect width="${w}" height="${h}" fill="#333" />
-  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
-  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
-</svg>`;
+const placeHolder = (w: number, h: number) =>
+  `<div className="animate-pulse bg-slate-700 p-4 ring-1 ring-slate-900/5 rounded-lg shadow-lg" style={{ height: ${h}, width: ${w} }} ></div>`;
 
 const toBase64 = (str: string) =>
   typeof window === "undefined"
@@ -128,7 +117,7 @@ export const getServerSideProps: GetServerSideProps<{
   delete pokemon.game_indices;
   delete pokemon.held_items;
   delete pokemon.location_area_encounters;
-  delete pokemon.moves;
+  pokemon.moves = pokemon.moves?.slice(0, 5);
   delete pokemon.order;
 
   return { props: { pokemon } };

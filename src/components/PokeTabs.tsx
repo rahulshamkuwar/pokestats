@@ -4,7 +4,7 @@ import { SPokemon } from "@/interfaces";
 
 function PokeTabs(pokemon: SPokemon) {
   return (
-    <Tabs className="col-span-3">
+    <Tabs className="lg:col-span-3">
       <TabList>
         <Tab>
           <h2 className="text-xl slate">About</h2>
@@ -16,7 +16,7 @@ function PokeTabs(pokemon: SPokemon) {
           <h2 className="text-xl">Stats</h2>
         </Tab>
         <Tab>
-          <h2 className="text-xl">Types</h2>
+          <h2 className="text-xl">Moves</h2>
         </Tab>
       </TabList>
       <TabPanel>
@@ -24,13 +24,17 @@ function PokeTabs(pokemon: SPokemon) {
           <p>Height: {pokemon.height}</p>
           <p>Weight: {pokemon.weight}</p>
           <p>Species: {pokemon.species.name}</p>
-          <p>Base Experience: {pokemon.base_experience}</p>
-          {pokemon.forms.map((form, i) => (
-            <p key={i}>
-              Forms: {form.name}
-              {i > 1 ? ", " : ""}
-            </p>
-          ))}
+          <p>Base Experience Gained: {pokemon.base_experience}</p>
+          <p>
+            Forms:{" "}
+            {pokemon.forms.map((form, i) => `${form.name}${i > 1 ? ", " : ""}`)}
+          </p>
+          <p>
+            Types:{" "}
+            {pokemon.types.map(
+              (type, i) => `${type.type.name}${i > 1 ? ", " : ""}`
+            )}
+          </p>
         </div>
       </TabPanel>
       <TabPanel>
@@ -71,10 +75,9 @@ function PokeTabs(pokemon: SPokemon) {
         </div>
       </TabPanel>
       <TabPanel>
-        {pokemon.types.map((type, i) => (
+        {pokemon.moves?.map((move, i) => (
           <div key={i} className="text-lg capitalize">
-            <p>{type.type.name}</p>
-            <p>{type.slot}</p>
+            <p>{move.move.name}</p>
           </div>
         ))}
       </TabPanel>

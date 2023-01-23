@@ -49,11 +49,9 @@ function PokeTabs(pokemon: SPokemon) {
           <table className="table-auto border-collapse border border-slate-500 w-1/2">
             <thead>
               <tr>
-                <th className="px-5 border border-slate-600 border-">Stat</th>
-                <th className="px-5 border border-slate-600 border-">
-                  Base Stat
-                </th>
-                <th className="px-5 border border-slate-600 border-">Effort</th>
+                <th className="px-5 border border-slate-600">Stat</th>
+                <th className="px-5 border border-slate-600">Base Stat</th>
+                <th className="px-5 border border-slate-600">Effort</th>
               </tr>
             </thead>
             <tbody>

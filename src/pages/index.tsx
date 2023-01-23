@@ -55,17 +55,69 @@ export default function Home({
         <div className="container mx-auto">
           <h1 className="text-2xl capitalize">{pokemon.name}</h1>
           <div className="lg:grid lg:grid-cols-4">
-            <div className="md:w-64 md:h-64 w-48 h-48 relative object-contain lg:col-span-1 m-5">
-              <Image
-                src={pokemon.sprites.other?.dream_world.front_default ?? ""}
-                alt={pokemon.name}
-                fill
-                priority={true}
-                placeholder="blur"
-                blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                  placeHolder(256, 256)
-                )}`}
-              />
+            <div className="lg:col-span-1">
+              <div className="md:w-64 md:h-64 w-48 h-48 relative object-contain m-5">
+                <Image
+                  src={pokemon.sprites.other?.dream_world.front_default ?? ""}
+                  alt={pokemon.name}
+                  fill
+                  priority
+                  placeholder="blur"
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                    placeHolder(256, 256)
+                  )}`}
+                />
+              </div>
+              <div className="grid grid-cols-4">
+                <div className="w-16 h-16 relative object-contain col-span-1">
+                  <Image
+                    src={pokemon.sprites.front_default ?? ""}
+                    alt={`${pokemon.name}-back-default`}
+                    fill
+                    priority
+                    placeholder="blur"
+                    blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                      placeHolder(128, 128)
+                    )}`}
+                  />
+                </div>
+                <div className="w-16 h-16 relative object-contain col-span-1">
+                  <Image
+                    src={pokemon.sprites.back_default ?? ""}
+                    alt={`${pokemon.name}-back-default`}
+                    fill
+                    priority
+                    placeholder="blur"
+                    blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                      placeHolder(128, 128)
+                    )}`}
+                  />
+                </div>
+                <div className="w-16 h-16 relative object-contain col-span-1">
+                  <Image
+                    src={pokemon.sprites.front_shiny ?? ""}
+                    alt={`${pokemon.name}-back-default`}
+                    fill
+                    priority
+                    placeholder="blur"
+                    blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                      placeHolder(128, 128)
+                    )}`}
+                  />
+                </div>
+                <div className="w-16 h-16 relative object-contain col-span-1">
+                  <Image
+                    src={pokemon.sprites.back_shiny ?? ""}
+                    alt={`${pokemon.name}-back-default`}
+                    fill
+                    priority
+                    placeholder="blur"
+                    blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                      placeHolder(128, 128)
+                    )}`}
+                  />
+                </div>
+              </div>
             </div>
             <PokeTabs {...pokemon}></PokeTabs>
           </div>
